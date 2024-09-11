@@ -1,0 +1,31 @@
+/* login.css */
+
+
+.image-container {
+    display: flex;
+    justify-content: center;  /* Centrer horizontalement */
+    align-items: center;      /* Centrer verticalement */
+    height: 400px;            /* Hauteur du conteneur, ajustez selon vos besoins */
+    padding-top: 90px;        /* Ajustez pour descendre l'image */
+   
+}
+
+.login-image {
+    width: 60%;               /* Contrôle de la largeur de l'image */
+    max-width: 300px;         /* Maximum width of the image */
+    margin-right: 50%;
+    margin-left: 30%;
+   
+}
+
+.background-gradient {
+    background: linear-gradient(to bottom, #5e588b, #ecce85);
+    height: 100vh;  /* Assurez-vous que la section prend toute la hauteur de la fenêtre */
+}
+
+.btn-block{
+    background-color: #334377;
+}
+.p{
+    color: #334377;
+}

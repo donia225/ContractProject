@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+   Topnet
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href=" {% static 'assets/css/argon-dashboard.css' %}?v=2.0.4" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+      <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="{% url 'index' %} " >
+          <img src="{% static 'images/logotopnet.png' %}" class="navbar-brand-img h-100" alt="main_logo">
+          <span class="ms-1 font-weight-bold">
+            {% if user.is_staff %}
+                Espace Administrateur
+            {% else %}
+                Espace Revendeur
+            {% endif %}
+        </span>
+        </a>
+      </div>
+      <hr class="horizontal dark mt-0">
+      <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+          <ul class="navbar-nav">
+              {% if user.is_staff %}
+              <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'dashboard_view' %}">
+                      <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                          <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                      </div>
+                      <span class="nav-link-text ms-1">Dashboard</span>
+                  </a>
+              </li>
+              {% endif %}
+      
+              <li class="nav-item">
+                <a class="nav-link" href="#contractsSubmenu" data-toggle="collapse" aria-expanded="false" aria-controls="contractsSubmenu">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-copy-04 text-sm opacity-10" style="color: #45a2a8;"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Gestion des contrats</span>
+                    <i class="ni ni-bold-down" id="contractsArrow"></i>
+                </a>
+                <ul class="collapse list-unstyled ml-3" id="contractsSubmenu">
+                  <li class="nav-item">
+                      <a class="nav-link with-bullet" href="{% url 'list_contract' %}">
+                          <span class="nav-link-text">Liste des contrats</span>
+                      </a>
+                  </li>
+                  {% if user.is_staff %}
+                  <li class="nav-item">
+                      <a class="nav-link with-bullet" href="{% url 'approved_contracts' %}">
+                          <span class="nav-link-text">Liste des contrats approuvés</span>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link with-bullet" href="{% url 'list_rejected_contracts' %}">
+                          <span class="nav-link-text">Liste des contrats rejetés</span>
+                      </a>
+                  </li>
+                  {% endif %}
+              </ul>
+            </li>
+          </ul>
+      </div>
+      </aside>
+      
+    <main class="main-content position-relative border-radius-lg ">
+      <!-- Navbar -->
+      <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+        <div class="container-fluid py-1 px-3">
+          <nav aria-label="breadcrumb">
+          
+          
+          </nav>
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
+            <ul class="navbar-nav justify-content-end">
+              <li class="nav-item d-flex align-items-center">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-single-02 text-white text-sm opacity-8"></i>
+                </div>
+                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0 d-flex align-items-center">
+                  <span class="me-2">{{ user.username }}</span>
+                </a>
+                <div class="ms-2">
+                  <li class="nav-item d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-success btn-sm ms-2" style="background-color: #F49D2B; color: white;">
+                          <i class="fas fa-sign-out-alt"></i> Se déconnecter
+                      </button>
+                      
+                  </form>
+                    {% endif %}
+                  </div>
+                  <span class="d-sm-inline d-none"></span>
+                </a>
+              </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                  </div>
+                </a>
+              </li>
+               
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                  <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <h5>Liste des Contrats Approuvés</h5>
+                    <div class="d-flex align-items-center">
+                       
+                     
+                      
+                  </div>
+                </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                              <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type Abonnement</th>
+                                    {% if not user.is_staff %}
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gouvernorat</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Localité</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Civilité</th>
+                                    {% endif %}
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prénom</th>
+                                    {% if not user.is_staff %}
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date de Naissance</th>
+                                    {% endif %}
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date d'approbation</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            
+                            
+                                <tbody>
+                                    {% for contract in contracts %}
+                                    <tr>
+                                      <td>{{ contract.type_abonnement }}</td>
+                                      {% if not user.is_staff %}
+                                          <td>{{ contract.gouvernorat }}</td>
+                                          <td>{{ contract.localite }}</td>
+                                          <td>{{ contract.civilite }}</td>
+                                      {% endif %}
+                                      <td>{{ contract.nom }}</td>
+                                      <td>{{ contract.prenom }}</td>
+                                      {% if not user.is_staff %}
+                                          <td>{{ contract.date_naissance }}</td>
+                                      {% endif %}
+                                      <td>{{ contract.updated_at }}</td>
+                                 
+                                
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                      <td colspan="8">Aucun contrat approuvé pour le moment.</td>
+                                  </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function() {
+          window.history.pushState(null, "", window.location.href);
+      };
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#contractsSubmenu').on('show.bs.collapse', function () {
+            $('#contractsArrow').removeClass('ni-bold-down').addClass('ni-bold-up');
+        });
+    
+        $('#contractsSubmenu').on('hide.bs.collapse', function () {
+            $('#contractsArrow').removeClass('ni-bold-up').addClass('ni-bold-down');
+        });
+    
+    });
+    </script>
+
+<script>
+  // Fonction debounce pour retarder la soumission du formulaire
+  let debounceTimeout;
+  document.getElementById('searchInput').addEventListener('input', function() {
+      clearTimeout(debounceTimeout);  // Réinitialise le timer
+      debounceTimeout = setTimeout(function() {
+          document.getElementById('searchForm').submit();  // Soumet le formulaire après 500ms d'inactivité
+      }, 500);  // Délai de 500ms avant soumission
+  });
+  </script>
+    
+    
+  <style>
+    .status-pending {
+        color: #ffc107; /* Jaune */
+        font-weight: bold;
+    }
+    .status-approved {
+        color: #28a745; /* Vert */
+        font-weight: bold;
+    }
+    .status-rejected {
+        color: #dc3545; /* Rouge */
+        font-weight: bold;
+    }
+    .nav-link.collapsed[aria-expanded="true"] + .collapse {
+    display: block !important;
+}
+#contractsArrow {
+    transition: transform 0.3s ease;
+}
+.nav-link.with-bullet::before {
+    content: '•';  /* Puce */
+    font-size: 12px;
+    margin-right: 10px;
+    color: #333;  /* Vous pouvez changer la couleur si nécessaire */
+}
+
+.nav-link.with-bullet {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;  /* Ajustez selon vos besoins */
+}
+.input-group-text i {
+        color: #007bff; /* Bleu */
+    }
+
+    /* Pour ajouter une bordure bleue autour de l'input et l'icône */
+    .input-group-text {
+        border-color: #007bff;
+    }
+
+    .form-control {
+        border-color: #007bff;
+    }
+
+
+</style>
+
+</body>
+</html>
