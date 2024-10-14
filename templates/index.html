@@ -206,7 +206,28 @@
         </div>
       </div>
     </nav>
- 
+    <body class="g-sidenav-show bg-gray-100">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="dashboard-welcome">
+              {% if user.is_staff %}
+                <h1>Bienvenue sur le Dashboard de l'Administrateur</h1>
+              {% else %}
+                <h1>Bienvenue sur le Dashboard du Revendeur</h1>
+              {% endif %}
+              
+              <p>Gérez vos contrats.</p>
+              <div class="dashboard-buttons">
+                <a href="{% url 'list_contract' %}">Voir les contrats</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 dashboard-image">
+            <img src="{% static 'images/developer-team.png' %}" alt="developer-team">
+          </div>
+        </div>
+      </div>
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
@@ -438,6 +459,54 @@
     padding-left: 15px;  /* Ajustez selon vos besoins */
 }
 
+.dashboard-welcome {
+    background-color: #ecce85;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .dashboard-welcome p {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+
+  .dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .dashboard-buttons a {
+    background-color: #5e72e4;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    margin: 0 10px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .dashboard-buttons a:hover {
+    background-color: #324cdd;
+  }
+
+  .dashboard-image {
+    text-align: right;
+  }
+
+  .dashboard-image img {
+    max-width: 100%;
+    height: auto;
+  }
 
 
 </style>

@@ -18,13 +18,18 @@
     <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}?v=2.0.4" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <!-- Inclure jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-   
-    <!-- Include Bootstrap Datepicker JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Inclure Bootstrap Datepicker CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+  <!-- Inclure Bootstrap Datepicker JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    
+
     <script>
         $(document).ready(function() {
             function validateCoordonnees() {
@@ -103,13 +108,7 @@
     
     
     <script>
-        $(document).ready(function(){
-            $('#id_date_naissance').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                todayHighlight: true
-            });
-        });
+     
         function calculateAge(birthdate) {
         const today = new Date();
         const birthDate = new Date(birthdate);
@@ -225,7 +224,17 @@
     </script>
 </head>
 <body class="g-sidenav-show bg-gray-100">
+    <script>
+    $(document).ready(function(){
+        $('#id_date_naissance').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+    console.log($.fn.datepicker);
 
+</script>
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
       <div class="sidenav-header">
@@ -708,7 +717,7 @@
         toggleSmartOptions();
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#id_gouvernorat').change(function() {
@@ -813,6 +822,7 @@
                     }
                 });
             } else {
+                console.warn('No localite ID selected');
                 $('#id_coordonnees').val('');
                 $('#id_coordonnees').removeClass('is-valid').addClass('is-invalid');
                 $('#coordonnees_feedback').show();
@@ -827,8 +837,7 @@
         window.history.pushState(null, "", window.location.href);
     };
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
   <script>
     $(document).ready(function() {
         $('#contractsSubmenu').on('show.bs.collapse', function () {

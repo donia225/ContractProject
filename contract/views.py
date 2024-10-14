@@ -24,19 +24,22 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.db.models import Q
 from .models import Contract
+from urllib.parse import quote
 
 
 @login_required
 def add_contract(request):
     if request.method == 'POST':
-        form = ContractForm(request.POST, request.FILES)
+        form = ContractForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             contract = form.save(commit=False)
             contract.created_by = request.user  # Assigner l'utilisateur connecté
+            if not request.user.is_staff:  # Si l'utilisateur est un revendeur
+                contract.status = 'pending'  # Définir le statut par défaut pour le revendeur
             contract.save()
             return redirect('list_contract')
     else:
-        form = ContractForm()
+        form = ContractForm(user=request.user)
     
     return render(request, 'contract/add_contract.html', {'form': form})
 
@@ -73,7 +76,7 @@ def edit_contract(request, contract_id):
     contract = get_object_or_404(Contract, id=contract_id)
 
     if request.method == 'POST':
-        form = ContractForm(request.POST, request.FILES, instance=contract)
+        form = ContractForm(request.POST, request.FILES, instance=contract, user=request.user)  # Passer user ici aussi
         if form.is_valid():
             # S'assurer que le champ created_by n'est pas vide
             if contract.created_by is None:
@@ -82,9 +85,10 @@ def edit_contract(request, contract_id):
             form.save()
             return redirect('list_contract')
     else:
-        form = ContractForm(instance=contract)
+        form = ContractForm(instance=contract, user=request.user)  # Passer user ici aussi
 
     return render(request, 'contract/edit_contract.html', {'form': form, 'contract': contract})
+
 
 @never_cache
 @login_required
@@ -160,7 +164,8 @@ def get_coordinates(request):
         try:
             localite = Localite.objects.get(id=localite_id)
             address = f"{localite.nomLocalite}, {localite.delegation.nomDelegation}, {localite.delegation.gouvernorat.nomGouvernorat}, Tunisia"
-            url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json&limit=1"
+            encoded_address = quote(address)
+            url = f"https://nominatim.openstreetmap.org/search?q={encoded_address}&format=json&limit=1"
             response = requests.get(url)
             data = response.json()
             if data:

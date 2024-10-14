@@ -36,6 +36,12 @@ class ContractForm(forms.ModelForm):
             'date_naissance': DateInput(attrs={'class': 'form-control', 'type': 'date','required': True}),
             'lieu_naissance': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
         }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)  # Extraire l'utilisateur
+        super().__init__(*args, **kwargs)
+        if not self.user.is_staff:  # Si l'utilisateur n'est pas un administrateur
+            self.fields.pop('status')  # Exclure le champ status pour le revendeur
+            
     def clean_nom(self):
         nom = self.cleaned_data.get('nom')
         if not re.match("^[a-zA-Zéèêëàâäîïôöûüç-]+$", nom):

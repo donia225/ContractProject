@@ -20,7 +20,8 @@ urlpatterns = [
     path('approve/<int:contract_id>/', approve_contract, name='approve_contract'),
     path('reject/<int:contract_id>/', reject_contract, name='reject_contract'),
     path('approved-contracts/', approved_contracts_view, name='approved_contracts'),
-    path('rejected/', list_rejected_contracts, name='list_rejected_contracts')
+    path('rejected/', list_rejected_contracts, name='list_rejected_contracts'),
+    
 
     
 ]
